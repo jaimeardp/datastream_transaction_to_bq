@@ -1,0 +1,126 @@
+{
+    "displayName": "CDC Pipeline Dashboard - ${var_environment}",
+    "mosaicLayout": {
+        "columns": 12,
+        "tiles": [
+            {
+                "width": 6,
+                "height": 4,
+                "widget": {
+                    "title": "Datastream Events Rate",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "timeSeriesQuery": {
+                                    "timeSeriesFilter": {
+                                        "filter": "metric.type=\"datastream.googleapis.com/stream/event_count\" AND resource.type=\"datastream.googleapis.com/Stream\" AND resource.labels.stream_id=\"${google_datastream_stream_postgres_to_bigquery_stream_id}\"",
+                                        "aggregation": {
+                                            "alignmentPeriod": "60s",
+                                            "perSeriesAligner": "ALIGN_RATE",
+                                            "crossSeriesReducer": "REDUCE_SUM"
+                                        }
+                                    }
+                                },
+                                "plotType": "LINE"
+                            }
+                        ],
+                        "timeshiftDuration": "0s",
+                        "yAxis": {
+                            "label": "Events/sec",
+                            "scale": "LINEAR"
+                        }
+                    }
+                }
+            },
+            {
+                "width": 6,
+                "height": 4,
+                "xPos": 6,
+                "widget": {
+                    "title": "Cloud SQL CPU Utilization",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "timeSeriesQuery": {
+                                    "timeSeriesFilter": {
+                                        "filter": "resource.type=\"cloudsql_database\" AND resource.labels.database_id=\"${var_project_id}:${google_sql_database_instance_postgres_instance_name}\" AND metric.type=\"cloudsql.googleapis.com/database/cpu/utilization\"",
+                                        "aggregation": {
+                                            "alignmentPeriod": "60s",
+                                            "perSeriesAligner": "ALIGN_MEAN"
+                                        }
+                                    }
+                                },
+                                "plotType": "LINE"
+                            }
+                        ],
+                        "timeshiftDuration": "0s",
+                        "yAxis": {
+                            "label": "CPU %",
+                            "scale": "LINEAR"
+                        }
+                    }
+                }
+            },
+            {
+                "width": 6,
+                "height": 4,
+                "yPos": 4,
+                "widget": {
+                    "title": "Cloud SQL Memory Utilization",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "timeSeriesQuery": {
+                                    "timeSeriesFilter": {
+                                        "filter": "resource.type=\"cloudsql_database\" AND resource.labels.database_id=\"${var_project_id}:${google_sql_database_instance_postgres_instance_name}\" AND metric.type=\"cloudsql.googleapis.com/database/memory/utilization\"",
+                                        "aggregation": {
+                                            "alignmentPeriod": "60s",
+                                            "perSeriesAligner": "ALIGN_MEAN"
+                                        }
+                                    }
+                                },
+                                "plotType": "LINE"
+                            }
+                        ],
+                        "timeshiftDuration": "0s",
+                        "yAxis": {
+                            "label": "Memory %",
+                            "scale": "LINEAR"
+                        }
+                    }
+                }
+            },
+            {
+                "width": 6,
+                "height": 4,
+                "xPos": 6,
+                "yPos": 4,
+                "widget": {
+                    "title": "BigQuery Slots Used",
+                    "xyChart": {
+                        "dataSets": [
+                            {
+                                "timeSeriesQuery": {
+                                    "timeSeriesFilter": {
+                                        "filter": "resource.type=\"bigquery_project\" AND metric.type=\"bigquery.googleapis.com/slots/allocated\"",
+                                        "aggregation": {
+                                            "alignmentPeriod": "60s",
+                                            "perSeriesAligner": "ALIGN_MEAN",
+                                            "crossSeriesReducer": "REDUCE_SUM"
+                                        }
+                                    }
+                                },
+                                "plotType": "LINE"
+                            }
+                        ],
+                        "timeshiftDuration": "0s",
+                        "yAxis": {
+                            "label": "Slots",
+                            "scale": "LINEAR"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
