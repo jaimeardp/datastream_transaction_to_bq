@@ -20,12 +20,12 @@ resource "google_datastream_private_connection" "private_connection" {
 
 # PostgreSQL source connection profile - PRIVATE IP (Infrastructure is ready!)
 resource "google_datastream_connection_profile" "postgres_source" {
-  display_name          = "PostgreSQL E-commerce Source"
+  display_name          = "PostgreSQL E-commerce Source 2"
   location              = var.region
   connection_profile_id = "postgres-source-${var.environment}"
 
   postgresql_profile {
-    hostname = "10.0.0.7" #google_compute_instance.proxy_vm.network_interface[0].network_ip
+    hostname = google_compute_instance.proxy_vm.network_interface[0].network_ip
     port     = 5432
     username = google_sql_user.datastream_user.name
     password = var.datastream_password
